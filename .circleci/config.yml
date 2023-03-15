@@ -1,5 +1,8 @@
 version: 2.1
-            
+
+orbs:
+  slack: circleci/slack@4.12.1
+ 
 jobs:
   build-frontend:
     docker:
@@ -102,6 +105,9 @@ jobs:
             npm install
             npm audit fix --audit-level=critical --force
             npm audit --audit-level=critical 
+      - slack/notify:
+          event: fail
+          template: basic_fail_1
       - save_cache:
           paths: [backend/node_modules]
           key: backend-build
