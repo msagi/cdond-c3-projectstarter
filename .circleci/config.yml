@@ -226,7 +226,7 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            apk add --update ansible openssh npm
+            apk add --update ansible openssh npm tar
       - run:
           name: Get backend url
           command: |
@@ -262,7 +262,7 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            apk add --update ansible openssh
+            apk add --update ansible openssh npm tar
       - run:
           name: Deploy backend
           command: |
