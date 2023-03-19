@@ -193,7 +193,7 @@ jobs:
           name: Configure server
           command: |
             cd .circleci/ansible
-            ansible-playbook -vvvvv -i /tmp/workspace/project/.circleci/ansible/inventory.txt configure-server.yml
+            ansible-playbook -vvv -i /tmp/workspace/project/.circleci/ansible/inventory.txt configure-server.yml
       # Here's where you will add some code to rollback on failure      
 
   run-migrations:
@@ -225,7 +225,7 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            apk add --update ansible openssh npm tar aws
+            apk add --update ansible openssh npm tar awscli
       - run:
           name: Get backend url
           command: |
@@ -266,11 +266,17 @@ jobs:
           name: Deploy backend
 #            cd ..
 #            tar -C backend -czvf .circleci/ansible/roles/deploy/files/artifact.tar.gz .
+#            tar -czvf ../.circleci/ansible/roles/deploy/files/artifact.tar.gz .
           command: |
+            pwd
             cd backend
             npm i
             npm run build
-            tar -czvf ../.circleci/ansible/roles/deploy/files/artifact.tar.gz .
+            ls -la
+            cd ..
+            tar -C backend -czvf artifact.tar.gz .
+            ls -la
+            cp ./artifact.tar.gz ./.circleci/ansible/roles/deploy/files/
             cd .circleci/ansible
             echo "Contents of the inventory.txt file is -------"
             cat /tmp/workspace/project/.circleci/ansible/inventory.txt
