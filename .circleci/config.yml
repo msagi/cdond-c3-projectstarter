@@ -178,7 +178,8 @@ jobs:
 
   configure-infrastructure:
     docker:
-      - image: python:3.7-alpine3.11
+#      - image: python:3.7-alpine3.11
+      - image: python:3.8.16-alpine3.17
     steps:
       - checkout
       - add_ssh_keys:
@@ -188,13 +189,13 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            apk add --update ansible openssh
+            apk add --update ansible openssh aws-cli
       - run:
           name: Configure server
           command: |
             cd .circleci/ansible
             ansible-playbook -vvv -i /tmp/workspace/project/.circleci/ansible/inventory.txt configure-server.yml
-      # Here's where you will add some code to rollback on failure      
+      - destroy-environment
 
   run-migrations:
     docker:
@@ -216,11 +217,13 @@ jobs:
             then
               curl https://kvdb.io/6tQmVhNfeiCMBtZiHRD4f6/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '1'
             fi
-           # Here's where you will add some code to rollback on failure      
+      - revert-migrations
+      - destroy-environment
 
   deploy-frontend:
     docker:
-      - image: python:3.7-alpine3.11
+#      - image: python:3.7-alpine3.11
+      - image: python:3.8.16-alpine3.17
     steps:
       - checkout
       - run:
@@ -252,7 +255,8 @@ jobs:
                 
   deploy-backend:
     docker:
-      - image: python:3.7-alpine3.11
+#      - image: python:3.7-alpine3.11
+      - image: python:3.8.16-alpine3.17
     steps:
       - checkout
       - add_ssh_keys:
@@ -273,10 +277,8 @@ jobs:
             cd backend
             npm i
             npm run build
-            ls -la
             cd ..
             tar -C backend -czvf artifact.tar.gz .
-            ls -la
             cp ./artifact.tar.gz ./.circleci/ansible/roles/deploy/files/artifact.tar.gz
             cd .circleci/ansible
             echo "Contents of the inventory.txt file is -------"
