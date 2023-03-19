@@ -230,8 +230,8 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            apk del npm nodejs
-            apk add --update ansible openssh nodejs=13.8.0 npm=6.13.6 tar aws-cli
+            apk add --update ansible openssh nvm tar aws-cli
+            nvm install 13.8.0
       - run:
           name: Get backend url
           command: |
@@ -268,7 +268,6 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            apk del npm nodejs
             apk add --update ansible openssh nodejs=13.8.0 npm=6.13.6 tar aws-cli
       - run:
           name: Deploy backend
