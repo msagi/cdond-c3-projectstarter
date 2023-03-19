@@ -270,9 +270,6 @@ jobs:
             sudo apt-get install ansible awscli -y
       - run:
           name: Deploy backend
-#            cd ..
-#            tar -C backend -czvf .circleci/ansible/roles/deploy/files/artifact.tar.gz .
-#            tar -czvf ../.circleci/ansible/roles/deploy/files/artifact.tar.gz .
           command: |
             pwd
             cd backend
@@ -285,6 +282,7 @@ jobs:
             echo "artifact built"
             pwd
             ls -la
+            ls -la ./.circleci/ansible/roles/deploy
             cp ./artifact.tar.gz ./.circleci/ansible/roles/deploy/files/artifact.tar.gz
             cd .circleci/ansible
             echo "Contents of the inventory.txt file is -------"
