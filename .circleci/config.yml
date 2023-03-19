@@ -224,15 +224,16 @@ jobs:
   deploy-frontend:
     docker:
 #      - image: python:3.7-alpine3.11
-      - image: python:3.8.16-alpine3.17
+#      - image: python:3.8.16-alpine3.17
+      - image: cimg/node:13.8.0
     steps:
       - checkout
       - run:
           name: Install dependencies
           command: |
-            apk add --update ansible openssh tar aws-cli curl bash
-            curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.2/install.sh | bash
-            /root/.nvm/nvm.sh install 13.8.0
+            apt-get update
+            apt-get install ansible openssh tar awscli
+#            apk add --update ansible openssh tar aws-cli curl bash
       - run:
           name: Get backend url
           command: |
