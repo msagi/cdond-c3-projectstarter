@@ -16,6 +16,22 @@ commands:
             aws cloudformation delete-stack \
                 --stack-name "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}"
  
+  revert-migrations:
+    description: Revert the last migration if successfully run in the current workflow.
+    steps:
+      - run:
+          name: Revert migrations
+          when: on_fail
+          command: |
+            # TODO Curl command here to see if there was a successful migration associated with the workflow id, store result in SUCCESS variable
+            SUCCESS = 1
+            if(( $SUCCESS==1 )); 
+            then
+              cd ~/project/backend
+              npm install
+              npm run migartions:revert
+            fi
+
 jobs:
   build-frontend:
     docker:
@@ -201,6 +217,67 @@ jobs:
               curl https://kvdb.io/$BUCKET_ID/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '1'
             fi
            # Here's where you will add some code to rollback on failure      
+
+  deploy-frontend:
+    docker:
+      - image: cimg/aws:2023.03
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: |
+            apk add --update ansible openssh npm
+      - run:
+          name: Get backend url
+          command: |
+            export BACKEND_IP=$(aws ec2 describe-instances \
+                --filters 'Name=tag:project,Values=udapeople' \
+                  --query 'Reservations[*].Instances[*].PublicIpAddress' \
+                  --output text)
+            export API_URL="http://${BACKEND_IP}:3030"
+            echo "${API_URL}"
+            echo "API_URL = ${API_URL}"
+            echo API_URL="http://${BACKEND_IP}:3030" >> frontend/.env
+            cat frontend/.env
+      - run:
+          name: Deploy frontend objects
+          command: |
+            cd frontend
+            npm install
+            npm run build
+            tar -czvf artifact-"${CIRCLE_WORKFLOW_ID:0:7}".tar.gz dist
+            aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
+      - revert-migrations
+      - destroy-environment
+                
+  deploy-backend:
+    docker:
+      - image: python:3.7-alpine3.11
+    steps:
+      - checkout
+      - add_ssh_keys:
+          fingerprints: ["1f:34:26:32:c1:51:f7:55:49:a7:38:92:7a:b3:3f:97"] 
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:
+          name: Install dependencies
+          command: |
+            apk add --update ansible openssh
+      - run:
+          name: Deploy backend
+          command: |
+            cd backend
+            npm i
+            npm run build
+            cd ..
+            # Zip the directory
+            tar -C backend -czvf .circleci/ansible/roles/deploy/files/artifact.tar.gz .
+            cd .circleci/ansible
+            echo "Contents  of the inventory.txt file is -------"
+            cat /tmp/workspace/project/.circleci/ansible/inventory.txt
+            ansible-playbook -vvvvv -i /tmp/workspace/project/.circleci/ansible/inventory.txt deploy-backend.yml
+      - revert-migrations
+      - destroy-environment
 
 workflows:
   default:
