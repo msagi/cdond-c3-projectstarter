@@ -233,7 +233,7 @@ jobs:
           command: |
             sudo apt list --installed
             sudo apt-get update
-            sudo apt-get install ansible openssh tar awscli
+            sudo apt-get install ansible awscli
 #            apk add --update ansible openssh tar aws-cli curl bash
       - run:
           name: Get backend url
