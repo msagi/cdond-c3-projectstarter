@@ -223,18 +223,14 @@ jobs:
 
   deploy-frontend:
     docker:
-#      - image: python:3.7-alpine3.11
-#      - image: python:3.8.16-alpine3.17
       - image: cimg/node:13.8.0
     steps:
       - checkout
       - run:
           name: Install dependencies
           command: |
-            sudo apt list --installed
             sudo apt-get update
             sudo apt-get install ansible awscli -y
-#            apk add --update ansible openssh tar aws-cli curl bash
       - run:
           name: Get backend url
           command: |
@@ -260,8 +256,7 @@ jobs:
                 
   deploy-backend:
     docker:
-#      - image: python:3.7-alpine3.11
-      - image: python:3.8.16-alpine3.17
+      - image: cimg/node:13.8.0
     steps:
       - checkout
       - add_ssh_keys:
@@ -271,7 +266,8 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            apk add --update ansible openssh nodejs=13.8.0 npm=6.13.6 tar aws-cli
+            sudo apt-get update
+            sudo apt-get install ansible awscli -y
       - run:
           name: Deploy backend
 #            cd ..
