@@ -183,7 +183,7 @@ jobs:
           paths:
             - project/.circleci/ansible/inventory.txt
       - destroy-environment:
-          workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"
+          workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
 
   configure-infrastructure:
     docker:
@@ -210,7 +210,7 @@ jobs:
             cd .circleci/ansible
             ansible-playbook -vvv -i /tmp/workspace/project/.circleci/ansible/inventory.txt configure-server.yml
       - destroy-environment:
-          workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"
+          workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
 
   run-migrations:
     docker:
@@ -238,9 +238,9 @@ jobs:
               curl https://kvdb.io/6tQmVhNfeiCMBtZiHRD4f6/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '1'
             fi
       - revert-migrations:
-          workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"
+          workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
       - destroy-environment:
-          workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"
+          workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
 
   deploy-frontend:
     docker:
@@ -273,9 +273,9 @@ jobs:
             tar -czvf artifact-"${CIRCLE_WORKFLOW_ID:0:7}".tar.gz dist
             aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
       - revert-migrations:
-          workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"
+          workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
       - destroy-environment:
-          workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"
+          workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
                 
   deploy-backend:
     docker:
@@ -307,9 +307,9 @@ jobs:
             cat /tmp/workspace/project/.circleci/ansible/inventory.txt
             ansible-playbook -vvv -i /tmp/workspace/project/.circleci/ansible/inventory.txt deploy-backend.yml
       - revert-migrations:
-          workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"
+          workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
       - destroy-environment:
-          workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"
+          workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
 
   smoke-test:
     docker:
@@ -352,9 +352,9 @@ jobs:
               return 1
             fi
       - revert-migrations:
-          workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"
+          workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
       - destroy-environment:
-          workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"
+          workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
 
   cloudfront-update:
     docker:
@@ -376,9 +376,9 @@ jobs:
                       --parameter-overrides WorkflowID="udapeople-${CIRCLE_WORKFLOW_ID:0:7}" \
                       --tags project=udapeople
       - revert-migrations:
-          workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"
+          workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
       - destroy-environment:
-          workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"
+          workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
 
   cleanup:
     docker:
