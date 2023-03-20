@@ -3,7 +3,6 @@
     pkg: 
       - npm
       - pm2
-      - tar
     state: latest
     update_cache: true
 
