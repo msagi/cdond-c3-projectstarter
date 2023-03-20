@@ -16,9 +16,17 @@
       cd ~/web
       tar -xzf artifact.tar.gz
 
-- name: "install and start backend."
+- name: "install npm."
   shell:
     cmd: |
       npm install pm2 -g
+
+- name: "stop backend."
+  shell:
+    cmd: |
       pm2 stop default
+
+- name: "start backend."
+  shell:
+    cmd: |
       pm2 start npm -- start
