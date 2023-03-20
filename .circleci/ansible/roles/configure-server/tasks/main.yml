@@ -1,0 +1,19 @@
+
+  - name: "install python for Ansible."
+    apt:
+      pkg: 
+        - python3
+      state: latest
+      update_cache: true
+
+  - name: "install Node.js."
+    apt:
+      pkg: 
+        - npm
+      state: latest
+      update_cache: true
+
+  - name: "install PM2 for Node.js."
+    shell:
+      cmd: |
+        npm install pm2 -g
