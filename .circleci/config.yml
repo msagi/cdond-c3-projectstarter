@@ -298,7 +298,7 @@ jobs:
             npm i
             npm run build
             cd ..
-            ARTIFACT_FOLDER=./.circlleci/ansible/roles/deploy/files
+            ARTIFACT_FOLDER=./.circleci/ansible/roles/deploy/files
             mkdir $ARTIFACT_FOLDER
             tar -C backend -czvf $ARTIFACT_FOLDER/artifact.tar.gz .
             cd .circleci/ansible
