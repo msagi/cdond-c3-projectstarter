@@ -17,3 +17,9 @@
     shell:
       cmd: |
         npm install pm2 -g
+
+  - name: "debug environment variables"
+    shell:
+      cmd: |
+        echo "Environment variables:"
+        env
