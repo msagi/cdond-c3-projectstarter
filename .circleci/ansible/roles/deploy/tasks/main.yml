@@ -14,7 +14,7 @@
   shell:
     cmd: |
       cd ~/web
-      tar -xvzf artifact.tar.gz
+      tar -xzf artifact.tar.gz
 
 - name: "install and start backend."
   shell:
