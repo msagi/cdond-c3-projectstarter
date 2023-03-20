@@ -197,6 +197,11 @@ jobs:
           name: Install dependencies
           command: |
             sudo apt-get update
+            sudo apt-get install awscli -y
+      - run:
+          name: Install dependencies
+          command: |
+            sudo apt-get update
             sudo apt-get install ansible awscli -y
       - run:
           name: Configure server
@@ -211,6 +216,11 @@ jobs:
       - image: cimg/node:13.8.0
     steps:
       - checkout
+      - run:
+          name: Install dependencies
+          command: |
+            sudo apt-get update
+            sudo apt-get install awscli -y
       - run:
           name: Run migrations
           command: |
