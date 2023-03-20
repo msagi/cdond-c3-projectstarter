@@ -37,7 +37,7 @@ commands:
             SUCCESS=$(curl --insecure $URL)
             echo "kvdb.io test result: '$SUCCESS'"
             # Logic for reverting the database state
-            if (( $SUCCESS == 1 ));
+            if (( "$SUCCESS" == "1" ));
             then
               cd ~/project/backend
               npm install
@@ -326,15 +326,13 @@ jobs:
             sudo apt-get update
             sudo apt-get install awscli -y
       - run:
-          name: Get backend url
+          name: Backend smoke test.
           command: |
             export BACKEND_IP=$(aws ec2 describe-instances \
                 --filters 'Name=tag:project,Values=udapeople' \
                   --query 'Reservations[*].Instances[*].PublicIpAddress' \
                   --output text)
-      - run:
-          name: Backend smoke test.
-          command: |
+            echo "Backend IP: $BACKEND_IP"
             export API_URL="http://${BACKEND_IP}:3030"
             echo "${API_URL}"
             if curl "${API_URL}/api/status" | grep "ok"
