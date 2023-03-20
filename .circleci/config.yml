@@ -14,12 +14,12 @@ commands:
           name: Destroy environments
           when: on_fail
           command: |
-            echo "Destroying environment: ${<< parameters.workflow_id >>}"
-            aws s3 rm s3://udapeople-${<< parameters.workflow_id >>} --recursive
+            echo "Destroying environment: << parameters.workflow_id >>"
+            aws s3 rm s3://udapeople-<< parameters.workflow_id >> --recursive
             aws cloudformation delete-stack \
-                --stack-name "udapeople-frontend-${<< parameters.workflow_id >>}"
+                --stack-name "udapeople-frontend-<< parameters.workflow_id >>"
             aws cloudformation delete-stack \
-                --stack-name "udapeople-backend-${<< parameters.workflow_id >>}"
+                --stack-name "udapeople-backend-<< parameters.workflow_id >>"
  
   revert-migrations:
     description: Revert the last migration if successfully run in the current workflow.
@@ -31,8 +31,8 @@ commands:
           name: Revert migrations
           when: on_fail
           command: |
-            echo "Workflow ID: ${<< parameters.workflow_id >>}"
-            SUCCESS=$(curl --insecure  https://kvdb.io/6tQmVhNfeiCMBtZiHRD4f6/migration_${<< parameters.workflow_id >>})
+            echo "Workflow ID: << parameters.workflow_id >>"
+            SUCCESS=$(curl --insecure  https://kvdb.io/6tQmVhNfeiCMBtZiHRD4f6/migration_<< parameters.workflow_id >>)
             # Logic for reverting the database state
             if (( $SUCCESS == 1 ));
             then
