@@ -14,6 +14,8 @@
   shell:
     cmd: |
       cd ~/web
+      cat ~/.profile
+      env
       npm install
       pm2 stop default
       pm2 start npm -- start

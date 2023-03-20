@@ -18,8 +18,23 @@
       cmd: |
         npm install pm2 -g
 
-  - name: "debug environment variables"
+  - name: "Persist environment variables."
+    shell:
+      cmd: |
+        PROFILE=/home/ubuntu/.profile
+        echo "TYPEORM_CONNECTION=$TYPEORM_CONNECTION" >> $PROFILE
+        echo "TYPEORM_ENTITIES=$TYPEORM_ENTITIES" >> $PROFILE
+        echo "TYPEORM_HOST=$TYPEORM_HOST" >> $PROFILE
+        echo "TYPEORM_PORT=$TYPEORM_PORT" >> $PROFILE
+        echo "TYPEORM_USERNAME=$TYPEORM_USERNAME" >> $PROFILE
+        echo "TYPEORM_PASSWORD=$TYPEORM_PASSWORD" >> $PROFILE
+        echo "TYPEORM_DATABASE=$TYPEORM_DATABASE" >> $PROFILE
+        echo "TYPEORM_MIGRATIONS=$TYPEORM_MIGRATIONS" >> $PROFILE
+        echo "TYPEORM_MIGRATIONS_DIR=$TYPEORM_MIGRATIONS_DIR" >> $PROFILE
+
+  - name: "Debug environment variables"
     shell:
       cmd: |
         echo "Environment variables:"
-        env
+        PROFILE=/home/ubuntu/.profile
+        cat $PROFILE
