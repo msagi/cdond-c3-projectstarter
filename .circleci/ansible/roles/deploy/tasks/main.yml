@@ -2,7 +2,6 @@
   apt:
     pkg: 
       - npm
-      - pm2
     state: latest
     update_cache: true
 
