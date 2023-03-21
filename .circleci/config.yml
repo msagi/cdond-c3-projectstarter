@@ -47,7 +47,7 @@ commands:
 jobs:
   build-frontend:
     docker:
-      - image: cimg/node:19.8.0
+      - image: cimg/node:13.8.0
     steps:
       - checkout
       - restore_cache:
@@ -64,7 +64,8 @@ jobs:
 
   build-backend:
     docker:
-      - image: cimg/node:19.8.0
+#      - image: cimg/node:13.8.0
+      - image: cimg/node:18.15.0
     steps:
       - checkout
       - restore_cache:
@@ -81,7 +82,7 @@ jobs:
 
   test-frontend:
     docker:
-      - image: cimg/node:19.8.0
+      - image: cimg/node:13.8.0
     steps:
       - checkout
       - restore_cache:
@@ -98,7 +99,8 @@ jobs:
 
   test-backend:
     docker:
-      - image: cimg/node:19.8.0
+#      - image: cimg/node:13.8.0
+      - image: cimg/node:18.15.0
     steps:
       - checkout
       - restore_cache:
@@ -115,7 +117,7 @@ jobs:
 
   scan-frontend:
     docker:
-      - image: cimg/node:19.8.0
+      - image: cimg/node:13.8.0
     steps:
       - checkout
       - restore_cache:
@@ -133,7 +135,8 @@ jobs:
 
   scan-backend:
     docker:
-      - image: cimg/node:19.8.0
+#      - image: cimg/node:13.8.0
+      - image: cimg/node:18.15.0
     steps:
       - checkout
       - restore_cache:
@@ -191,18 +194,13 @@ jobs:
 
   configure-infrastructure:
     docker:
-      - image: cimg/node:19.8.0
+      - image: cimg/node:13.8.0
     steps:
       - checkout
       - add_ssh_keys:
           fingerprints: ["1f:34:26:32:c1:51:f7:55:49:a7:38:92:7a:b3:3f:97"] 
       - attach_workspace:
           at: /tmp/workspace
-      - run:
-          name: Install dependencies
-          command: |
-            sudo apt-get update
-            sudo apt-get install awscli -y
       - run:
           name: Install dependencies
           command: |
@@ -218,7 +216,8 @@ jobs:
 
   run-migrations:
     docker:
-      - image: cimg/node:19.8.0
+#      - image: cimg/node:13.8.0
+      - image: cimg/node:18.15.0
     steps:
       - checkout
       - run:
@@ -248,7 +247,7 @@ jobs:
 
   deploy-frontend:
     docker:
-      - image: cimg/node:19.8.0
+      - image: cimg/node:13.8.0
     steps:
       - checkout
       - run:
@@ -283,7 +282,8 @@ jobs:
                 
   deploy-backend:
     docker:
-      - image: cimg/node:19.8.0
+#      - image: cimg/node:13.8.0
+      - image: cimg/node:18.15.0
     steps:
       - checkout
       - add_ssh_keys:
@@ -317,7 +317,7 @@ jobs:
 
   smoke-test:
     docker:
-      - image: cimg/node:19.8.0
+      - image: cimg/node:13.8.0
     steps:
       - checkout
       - run:
@@ -360,7 +360,7 @@ jobs:
 
   cloudfront-update:
     docker:
-      - image: cimg/node:19.8.0
+      - image: cimg/node:13.8.0
     steps:
       - checkout
       - run:
@@ -384,7 +384,7 @@ jobs:
 
   cleanup:
     docker:
-      - image: cimg/node:19.8.0
+      - image: cimg/node:13.8.0
     steps:
       - checkout
       - run:
