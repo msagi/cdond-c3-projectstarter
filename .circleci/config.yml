@@ -20,6 +20,7 @@ commands:
                 --stack-name "udapeople-frontend-<< parameters.workflow_id >>"
             aws cloudformation delete-stack \
                 --stack-name "udapeople-backend-<< parameters.workflow_id >>"
+            echo "Destroying environment: << parameters.workflow_id >> completed"
  
   revert-migrations:
     description: Revert the last migration if successfully run in the current workflow.
@@ -37,11 +38,13 @@ commands:
             SUCCESS=$(curl --insecure $URL)
             echo "kvdb.io test result: '$SUCCESS'"
             # Logic for reverting the database state
-            if (( "$SUCCESS" == "1" ));
+            if (( '"$SUCCESS"' == '1' ));
             then
+              echo "Reverting migrations..."
               cd ~/project/backend
               npm install
               npm run migration:revert
+              echo "Reverting migrations completed"
             fi 
 
 jobs:
@@ -64,7 +67,6 @@ jobs:
 
   build-backend:
     docker:
-#      - image: cimg/node:13.8.0
       - image: cimg/node:18.15.0
     steps:
       - checkout
@@ -99,7 +101,6 @@ jobs:
 
   test-backend:
     docker:
-#      - image: cimg/node:13.8.0
       - image: cimg/node:18.15.0
     steps:
       - checkout
@@ -135,7 +136,6 @@ jobs:
 
   scan-backend:
     docker:
-#      - image: cimg/node:13.8.0
       - image: cimg/node:18.15.0
     steps:
       - checkout
@@ -199,7 +199,6 @@ jobs:
 
   configure-infrastructure:
     docker:
-#      - image: cimg/node:13.8.0
       - image: cimg/node:18.15.0
     steps:
       - checkout
@@ -223,7 +222,6 @@ jobs:
 
   run-migrations:
     docker:
-#      - image: cimg/node:13.8.0
       - image: cimg/node:18.15.0
     steps:
       - checkout
@@ -290,7 +288,6 @@ jobs:
                 
   deploy-backend:
     docker:
-#      - image: cimg/node:13.8.0
       - image: cimg/node:18.15.0
     steps:
       - checkout
