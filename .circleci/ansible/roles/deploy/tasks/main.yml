@@ -15,6 +15,7 @@
     cmd: |
       cd ~/web
       npm install
-      pm2 stop default
-      pm2 --update-env start npm -- start
+      #pm2 stop default
+      pm2 start npm -- start
+      pm2 restart all --update-env
       echo Backend started.
