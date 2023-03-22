@@ -13,11 +13,6 @@
       state: latest
       update_cache: true
 
-  - name: "install PM2 for Node.js."
-    shell:
-      cmd: |
-        npm install pm2 -g
-
   - name: "Persist environment variables."
     shell:
       cmd: |
@@ -31,3 +26,8 @@
         echo "export TYPEORM_DATABASE=$TYPEORM_DATABASE" >> $ENVIRONMENT
         echo "export TYPEORM_MIGRATIONS=$TYPEORM_MIGRATIONS" >> $ENVIRONMENT
         echo "export TYPEORM_MIGRATIONS_DIR=$TYPEORM_MIGRATIONS_DIR" >> $ENVIRONMENT
+
+  - name: "install PM2 for Node.js."
+    shell:
+      cmd: |
+        npm install pm2 -g
