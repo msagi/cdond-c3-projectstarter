@@ -385,7 +385,6 @@ jobs:
             then
               echo "First time deployment detected."
               CurrentWorkflowID=${CIRCLE_WORKFLOW_ID:0:7}
-              exit 0
             fi
             echo "Current Workflow ID: ${CurrentWorkflowID}"
             echo "${CurrentWorkflowID}" > ~/project/workflow_id.txt
