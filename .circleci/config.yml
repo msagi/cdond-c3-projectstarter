@@ -322,7 +322,7 @@ jobs:
 
   smoke-test:
     docker:
-      - image: cimg/node:13.8.0
+      - image: cimg/node:18.15.0
     steps:
       - checkout
       - run:
@@ -365,7 +365,7 @@ jobs:
 
   cloudfront-update:
     docker:
-      - image: cimg/node:13.8.0
+      - image: cimg/node:18.15.0
     steps:
       - checkout
       - run:
@@ -375,6 +375,7 @@ jobs:
             sudo apt-get install awscli -y
       - run:
           name: Update cloudfront distribution
+          no_output_timeout: 30m
           command: |
             # Change the initial stack name, as applicable to you
             aws cloudformation deploy \
@@ -389,7 +390,7 @@ jobs:
 
   cleanup:
     docker:
-      - image: cimg/node:13.8.0
+      - image: cimg/node:18.15.0
     steps:
       - checkout
       - run:
