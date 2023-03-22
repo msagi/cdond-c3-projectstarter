@@ -163,6 +163,10 @@ jobs:
       - run:
           name: Ensure back-end infrastructure exists
           command: |
+            echo "Workflow ID: '${CIRCLE_WORKFLOW_ID:0:7}'"
+      - run:
+          name: Ensure back-end infrastructure exists
+          command: |
             aws cloudformation deploy \
                 --template-file .circleci/files/backend.yml \
                   --stack-name "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}" \
@@ -176,12 +180,13 @@ jobs:
                   --stack-name "udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}" \
                   --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}"  \
                   --tags project=udapeople
+            echo "Backend Server filter: 'tag:Name,Values=backend-'${CIRCLE_WORKFLOW_ID:0:7}'"
       - run:
           name: Add back-end ip to ansible inventory
           command: |
             INVENTORY_FILE=~/project/.circleci/ansible/inventory.txt
             aws ec2 describe-instances \
-                --filters 'Name=tag:project,Values=udapeople' \
+                --filters 'Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}' \
                   --query 'Reservations[*].Instances[*].PublicIpAddress' \
                   --output text >> $INVENTORY_FILE
             cat $INVENTORY_FILE 
@@ -194,7 +199,8 @@ jobs:
 
   configure-infrastructure:
     docker:
-      - image: cimg/node:13.8.0
+#      - image: cimg/node:13.8.0
+      - image: cimg/node:18.15.0
     steps:
       - checkout
       - add_ssh_keys:
@@ -260,7 +266,7 @@ jobs:
           name: Get backend url
           command: |
             export BACKEND_IP=$(aws ec2 describe-instances \
-                --filters 'Name=tag:project,Values=udapeople' \
+                --filters 'Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}' \
                   --query 'Reservations[*].Instances[*].PublicIpAddress' \
                   --output text)
             export API_URL="http://${BACKEND_IP}:3030"
@@ -330,7 +336,7 @@ jobs:
           name: Backend smoke test.
           command: |
             export BACKEND_IP=$(aws ec2 describe-instances \
-                --filters 'Name=tag:project,Values=udapeople' \
+                --filters 'Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}' \
                   --query 'Reservations[*].Instances[*].PublicIpAddress' \
                   --output text)
             echo "Backend IP: $BACKEND_IP"
