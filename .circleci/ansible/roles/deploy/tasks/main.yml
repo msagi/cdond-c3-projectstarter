@@ -9,6 +9,8 @@
     cmd: |
       cd ~/web
       tar -xzf artifact.tar.gz
+      rm -f ./development.env
+      mv ../development.env ./
 
 - name: "install npm and start backend service."
   shell:
