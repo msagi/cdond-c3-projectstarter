@@ -425,6 +425,11 @@ jobs:
       - run:
           name: Remove old stacks and files
           command: |
+            if [[ "" == "${OldWorkflowID}" ]]
+            then
+              echo "No previous deployment detected."
+              exit 0
+            fi
             if [[ "${CIRCLE_WORKFLOW_ID:0:7}" != "${OldWorkflowID}" ]]
             then
               echo "Delete stack: WorkflowID: ${OldWorkflowID}"
