@@ -378,11 +378,9 @@ jobs:
           no_output_timeout: 30m
           command: |
             # Fetch workflow ID
-            export CurrentWorkflowIDFull=$(aws cloudformation \
+            export CurrentWorkflowID=$(aws cloudformation \
                       list-exports --query "Exports[?Name==\`WorkflowID\`].Value" \
                       --no-paginate --output text)
-            echo "Current Workflow ID (full): ${CurrentWorkflowIDFull}"
-            export CurrentWorkflowID=${CurrentWorkflowIDFull:10}
             echo "Current Workflow ID: ${CurrentWorkflowID}"
             echo "${CurrentWorkflowID}" > ~/project/workflow_id.txt
 
