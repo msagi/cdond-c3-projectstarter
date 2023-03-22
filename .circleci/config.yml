@@ -161,7 +161,7 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Ensure back-end infrastructure exists
+          name: Echo workflow ID
           command: |
             echo "Workflow ID: '${CIRCLE_WORKFLOW_ID:0:7}'"
       - run:
@@ -245,6 +245,7 @@ jobs:
           command: |
             if grep -q "has been executed successfully." ~/project/backend/migrations_dump.txt
             then
+              echo "Updating migration status in kvdb.io"
               curl https://kvdb.io/6tQmVhNfeiCMBtZiHRD4f6/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '1'
             fi
       - revert-migrations:

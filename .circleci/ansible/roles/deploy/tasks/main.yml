@@ -15,7 +15,9 @@
     cmd: |
       cd ~/web
       cat ~/.profile
-      env
+      # env
       npm install
-      pm2 stop default
-      pm2 start npm -- start
+      # pm2 stop default
+      # pm2 start npm -- start
+      npm -- start &
+      echo Backend started.
