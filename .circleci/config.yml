@@ -387,7 +387,7 @@ jobs:
             # Enable static website hosting for udapeople-frontend S3 bucket using CloudFront
             aws cloudformation deploy \
                       --template-file .circleci/files/cloudfront.yml \
-                      --stack-name "InitialStack-${CIRCLE_WORKFLOW_ID:0:7}" \
+                      --stack-name "InitialStack-${CurrentWorkflowID}" \
                       --parameter-overrides WorkflowID="${CIRCLE_WORKFLOW_ID:0:7}" \
                       --tags project=udapeople
       - persist_to_workspace:
