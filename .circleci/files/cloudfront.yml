@@ -38,9 +38,4 @@ Outputs:
     Description: Workflow ID
     Export:
       Name: WorkflowID
-  WorkflowURL:
-    Value: !Sub "udapeople-${WorkflowID}.s3.amazonaws.com"
-    Description: URL for website hosted on S3
-    Export:
-      Name: WebsiteURL
   
