@@ -21,7 +21,7 @@
   - name: "Persist environment variables."
     shell:
       cmd: |
-        ENVIRONMENT=~/web/development.env
+        ENVIRONMENT=/home/ubuntu/web/development.env
         echo "" > $ENVIRONMENT
         echo "TYPEORM_CONNECTION=$TYPEORM_CONNECTION" >> $ENVIRONMENT
         echo "TYPEORM_ENTITIES=$TYPEORM_ENTITIES" >> $ENVIRONMENT
