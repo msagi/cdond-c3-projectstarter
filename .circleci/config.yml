@@ -242,6 +242,7 @@ jobs:
       - run:
           name: Send migration results to kvdb
           command: |
+            cd backend
             cat ./migrations_dump.txt
             if grep -q "has been executed successfully." ./migrations_dump.txt
             then
