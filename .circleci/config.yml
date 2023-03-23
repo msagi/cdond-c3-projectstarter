@@ -38,14 +38,16 @@ commands:
             SUCCESS=$(curl --insecure $URL)
             echo "kvdb.io test result: '$SUCCESS'"
             # Logic for reverting the database state
-            if (( '"$SUCCESS"' == '1' ));
+            if [[ '"$SUCCESS"' == '1' ]];
             then
               echo "Reverting migrations..."
               cd ~/project/backend
               npm install
               npm run migration:revert
               echo "Reverting migrations completed"
-            fi 
+            else
+              echo "No need to revert migration"
+            fi
 
 jobs:
   build-frontend:
