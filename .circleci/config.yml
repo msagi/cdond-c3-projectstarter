@@ -69,7 +69,7 @@ jobs:
 
   build-backend:
     docker:
-      - image: cimg/node:18.15.0
+      - image: cimg/node:13.8.0
     steps:
       - checkout
       - restore_cache:
@@ -103,7 +103,7 @@ jobs:
 
   test-backend:
     docker:
-      - image: cimg/node:18.15.0
+      - image: cimg/node:13.8.0
     steps:
       - checkout
       - restore_cache:
@@ -138,7 +138,7 @@ jobs:
 
   scan-backend:
     docker:
-      - image: cimg/node:18.15.0
+      - image: cimg/node:13.8.0
     steps:
       - checkout
       - restore_cache:
@@ -201,7 +201,7 @@ jobs:
 
   configure-infrastructure:
     docker:
-      - image: cimg/node:18.15.0
+      - image: cimg/node:13.8.0
     steps:
       - checkout
       - add_ssh_keys:
@@ -224,7 +224,7 @@ jobs:
 
   run-migrations:
     docker:
-      - image: cimg/node:18.15.0
+      - image: cimg/node:13.8.0
     steps:
       - checkout
       - run:
@@ -291,7 +291,7 @@ jobs:
                 
   deploy-backend:
     docker:
-      - image: cimg/node:18.15.0
+      - image: cimg/node:13.8.0
     steps:
       - checkout
       - add_ssh_keys:
@@ -325,7 +325,7 @@ jobs:
 
   smoke-test:
     docker:
-      - image: cimg/node:18.15.0
+      - image: cimg/node:13.8.0
     steps:
       - checkout
       - run:
@@ -368,7 +368,7 @@ jobs:
 
   cloudfront-update:
     docker:
-      - image: cimg/node:18.15.0
+      - image: cimg/node:13.8.0
     steps:
       - checkout
       - run:
@@ -409,7 +409,7 @@ jobs:
 
   cleanup:
     docker:
-      - image: cimg/node:18.15.0
+      - image: cimg/node:13.8.0
     steps:
       - checkout
       - attach_workspace:

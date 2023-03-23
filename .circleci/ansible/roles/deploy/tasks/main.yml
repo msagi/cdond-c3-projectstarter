@@ -15,11 +15,7 @@
     cmd: |
       cd ~/web
       npm install
-      #pm2 stop default
+      pm2 stop default
       . ~/.profile
-      env > debug-env.log
       pm2 start npm -- start
-      pm2 env 0 > debug-pm2-env.log
-      #pm2 restart all --update-env
-      #pm2 env 0 > debug-pm2-env-after-restart.log
       echo Backend started.
