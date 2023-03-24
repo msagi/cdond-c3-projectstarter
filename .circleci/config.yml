@@ -247,7 +247,7 @@ jobs:
               echo "Updating migration status in kvdb.io"
               curl https://kvdb.io/6tQmVhNfeiCMBtZiHRD4f6/migration_${CIRCLE_WORKFLOW_ID:0:7} -d '1'
             else
-              echo "Cannot confirm successful migration."
+              echo "No migrations are pending."
             fi
       - revert-migrations:
           workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
@@ -272,8 +272,6 @@ jobs:
                   --query 'Reservations[*].Instances[*].PublicIpAddress' \
                   --output text)
             export API_URL="http://${BACKEND_IP}:3030"
-            echo "${API_URL}"
-            echo "API_URL = ${API_URL}"
             echo API_URL="http://${BACKEND_IP}:3030" >> frontend/.env
             cat frontend/.env
       - run:

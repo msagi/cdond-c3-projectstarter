@@ -17,6 +17,7 @@
     shell:
       cmd: |
         ENVIRONMENT=/home/ubuntu/.profile
+        echo "export NODE_ENV=production" >> $ENVIRONMENT
         echo "export TYPEORM_CONNECTION=$TYPEORM_CONNECTION" >> $ENVIRONMENT
         echo "export TYPEORM_ENTITIES=$TYPEORM_ENTITIES" >> $ENVIRONMENT
         echo "export TYPEORM_HOST=$TYPEORM_HOST" >> $ENVIRONMENT
