@@ -201,7 +201,7 @@ jobs:
 
   configure-infrastructure:
     docker:
-      - image: cimg/node:18.15.0
+      - image: cimg/node:13.8.0
     steps:
       - checkout
       - add_ssh_keys:
@@ -212,6 +212,8 @@ jobs:
           name: Install dependencies
           command: |
             sudo apt-get update
+            sudo apt-get install software-properties-common -y
+            sudo add-apt-repository --yes --update ppa:ansible/ansible
             sudo apt-get install ansible awscli -y
       - run:
           name: Configure server
@@ -280,7 +282,7 @@ jobs:
             cd frontend
             npm install
             npm run build
-            tar -czvf artifact-"${CIRCLE_WORKFLOW_ID:0:7}".tar.gz dist
+            tar -czf artifact-"${CIRCLE_WORKFLOW_ID:0:7}".tar.gz dist
             aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
       - revert-migrations:
           workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
@@ -361,10 +363,10 @@ jobs:
             else
               exit 1
             fi
-      - revert-migrations:
-          workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
-      - destroy-environment:
-          workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
+#      - revert-migrations:
+#          workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
+#      - destroy-environment:
+#          workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
 
   cloudfront-update:
     docker:
