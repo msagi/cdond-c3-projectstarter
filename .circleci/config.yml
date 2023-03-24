@@ -289,7 +289,7 @@ jobs:
                 
   deploy-backend:
     docker:
-      - image: cimg/node:18.15.0
+      - image: cimg/node:13.8.0
     steps:
       - checkout
       - add_ssh_keys:
@@ -300,6 +300,8 @@ jobs:
           name: Install dependencies
           command: |
             sudo apt-get update
+            sudo apt-get install software-properties-common
+            sudo add-apt-repository --yes --update ppa:ansible/ansible
             sudo apt-get install ansible awscli -y
       - run:
           name: Deploy backend
